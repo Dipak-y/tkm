@@ -213,6 +213,7 @@
   </div>
 </section>
 
+
 <div class="pinwheel-divider">
   <div class="hero__pinwheel hero__pinwheel--2" aria-hidden="true">
     <span></span><span></span><span></span><span></span>
@@ -246,22 +247,25 @@
       </div>
     </div>
 
-    <form class="heritage__form" action="#" method="post">
+    <form method="POST" action="{% url 'contact_submit'%}" class="heritage__form" action="#" method="post">
+      {% csrf_token %}
       <input class="heritage__input" type="text" name="name" placeholder="Your name" required>
 
       <div class="heritage__form-row">
         <input class="heritage__input" type="email" name="email" placeholder="Email address" required>
-        <input class="heritage__input" type="tel" name="phone" placeholder="Contact number">
+        <input class="heritage__input" type="tel" name="contact_number" placeholder="Contact number">
       </div>
 
       <div class="heritage__form-row">
         <div class="heritage__select">
-          <select name="event" required>
+          <select name="event_type" required>
             <option value="" disabled selected hidden>Event</option>
             <option>Wedding Planning</option>
             <option>Pre-wedding &amp; Engagement</option>
             <option>Birthday Celebration</option>
+            <option>Corporate Event</option>
             <option>Galas &amp; Award Ceremonies</option>
+            <option>Destination Celebration</option>
           </select>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
         </div>
