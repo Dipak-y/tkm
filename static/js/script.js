@@ -1,3 +1,34 @@
+// ============ MOBILE NAV TOGGLE ============
+function initNavToggle(){
+  const nav = document.getElementById('nav');
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  if(!nav || !toggle || !links) return;
+
+  function closeNav(){
+    nav.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+  }
+
+  toggle.addEventListener('click', () => {
+    const isOpen = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', String(isOpen));
+  });
+
+  // close the menu after tapping a link
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', closeNav);
+  });
+
+  // close the menu if you tap/click outside it
+  document.addEventListener('click', (e) => {
+    if(nav.classList.contains('is-open') && !nav.contains(e.target)){
+      closeNav();
+    }
+  });
+}
+initNavToggle();
+
 // ============ SCROLL REVEAL ============
 function initScrollReveal(){
   const revealTargets = document.querySelectorAll(
