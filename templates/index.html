@@ -7,7 +7,7 @@
 <title>Nusantara Cultural House — Living Heritage of Southeast Asia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
@@ -16,7 +16,7 @@
 <header class="nav" id="nav">
   <a class="nav__brand" href="#hero">
     <span class="nav__logo-mark">
-      <img alt="KTM Event Planner Logo" class="nav__logo-img" src="{% static 'image/KTM_logo.png' %}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      <img alt="KTM Event Planner Logo" class="nav__logo-img" src="{% static 'image/KTM_logo_trim.png' %}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
       <span class="nav__logo-fallback" style="display:none;">KTM</span>
     </span>
     <span class="nav__logo-text"><em>Kathmandu</em><span>Event Planner</span></span>
@@ -24,10 +24,9 @@
 
   <nav class="nav__links" id="navLinks">
     <a href="#hero">Home</a>
+    <a href="#service">Services</a>
     <a href="#about">About</a>
-    <a href="#culture">Services</a>
     <a href="#gallery">Gallery</a>
-    <a href="#emedia">E-Media</a>
     <a href="#contact" class="nav__cta">Contact</a>
   </nav>
 
@@ -36,8 +35,8 @@
   </button>
 </header>
 
-<!-- ================= HERO ================= -->
-<section class="hero" id="hero">
+<!-- ================= HERO (service slider) ================= -->
+<section class="hero" id="hero" aria-roledescription="carousel" aria-label="Our event services">
 
   <!-- floating ambient particles -->
   <div class="hero__particles" aria-hidden="true">
@@ -59,27 +58,65 @@
     <span class="hero__particle hero__particle--16"></span>
   </div>
 
-  <!-- geometric triangle accent, bottom right -->
-  <div class="hero__triangle" aria-hidden="true"></div>
+  <!-- full-bleed background: one slide per service, cross-fades -->
+  <div class="hero__slides">
+    <div class="hero__slide is-active" data-title="Wedding Planning" data-desc="We plan and manage every detail of your wedding, from venue and décor to catering and coordination, creating a beautiful and stress-free celebration." data-thumb="{% static 'image/hero/thumb-1.jpg' %}">
+      <img src="{% static 'image/hero/slide-1.jpg' %}" alt="" fetchpriority="high" onerror="this.style.display='none'">
+    </div>
+    <div class="hero__slide" data-title="Pre-wedding &amp; Engagement" data-desc="Celebrate the beginning of your journey with beautifully curated engagement and pre-wedding events, thoughtfully designed with elegant décor, exquisite details, and seamless coordination." data-thumb="{% static 'image/hero/thumb-2.jpg' %}">
+      <img src="{% static 'image/hero/slide-2.jpg' %}" alt="" onerror="this.style.display='none'">
+    </div>
+    <div class="hero__slide" data-title="Birthday Celebration" data-desc="We create joyful, personalized birthday celebrations with thoughtful décor, engaging entertainment, and seamless coordination. From intimate gatherings to grand parties, we make every birthday memorable." data-thumb="{% static 'image/hero/thumb-3.jpg' %}">
+      <img src="{% static 'image/hero/slide-3.jpg' %}" alt="" onerror="this.style.display='none'">
+    </div>
+    <div class="hero__slide" data-title="Galas &amp; Award Ceremonies" data-desc="Celebrate excellence with sophisticated galas and award ceremonies, thoughtfully planned with elegant décor, seamless coordination, and memorable experiences." data-thumb="{% static 'image/hero/IMG_2763 (1).jpg' %}">
+      <img src="{% static 'image/hero/IMG_2763 (1).jpg' %}" alt="" onerror="this.style.display='none'">
+    </div>
+    <div class="hero__slide" data-title="Destination Celebrations" data-desc="Celebrate in a place that makes it unforgettable. We handle venues, travel, décor and guest logistics so a destination event feels effortless from start to finish." data-thumb="{% static 'image/hero/thumb-5.jpg' %}">
+      <img src="{% static 'image/hero/slide-5.jpg' %}" alt="" onerror="this.style.display='none'">
+    </div>
+    <div class="hero__slide" data-title="Corporate Events" data-desc="Elevate your corporate events with refined planning, professional coordination, and thoughtfully designed experiences that leave a lasting impression." data-thumb="{% static 'image/hero/IMG_1475.jpg' %}">
+      <img src="{% static 'image/hero/IMG_1475.jpg' %}" alt="" onerror="this.style.display='none'">
+    </div>
+  </div>
 
-
-  <!-- full bleed photo -->
-  <img class="hero__photo" src="{% static 'image/hero-wedding.jpg' %}" alt="A beautifully decorated wedding event" onerror="this.style.display='none'">
-
-  <!-- colour-grading overlay -->
+  <!-- readability overlay -->
   <div class="hero__overlay" aria-hidden="true"></div>
 
-  <!-- centred content -->
+  <!-- active service text (first service is rendered here; script swaps it) -->
   <div class="hero__content">
-    <p class="hero__eyebrow">KTM Event Planner</p>
-    <h1 class="hero__heading">Making Every<br>Celebration Memorable</h1>
-    <p class="hero__sub">From intimate weddings to grand galas every detail planned, every moment perfect, across Kathmandu and beyond.</p>
+    <p class="hero__eyebrow"><span class="hero__eyebrow-line"></span><span id="heroTag">Service 01</span></p>
+    <h1 class="hero__heading" id="heroTitle">Wedding Planning</h1>
+    <p class="hero__sub" id="heroDesc">We plan and manage every detail of your wedding, from venue and décor to catering and coordination, creating a beautiful and stress-free celebration.</p>
+    <div class="hero__actions">
+      <a class="hero__book" href="#contact" aria-label="Enquire about this service">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+      </a>
+      <a class="hero__more" href="#culture">Explore services</a>
+    </div>
+  </div>
+
+  <!-- upcoming service cards (built by script) -->
+  <div class="hero__rail" id="heroRail">
+    <div class="hero__track" id="heroTrack"></div>
+  </div>
+
+  <!-- controls -->
+  <div class="hero__controls">
+    <button class="hero__arrow" id="heroPrev" type="button" aria-label="Previous service">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <button class="hero__arrow" id="heroNext" type="button" aria-label="Next service">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+    <div class="hero__bar" aria-hidden="true"><span class="hero__bar-fill" id="heroBar"></span></div>
+    <div class="hero__count" aria-live="off"><b id="heroNum">01</b><span>/ 06</span></div>
   </div>
 
 </section>
 
 <!-- ================= INTRODUCTION ================= -->
-<section class="intro" id="about">
+<section class="intro" id="">
   <div class="intro__inner">
     <h2 class="intro__heading"><strong>KTM</strong> Event Planner</h2>
     <div class="intro__text">
@@ -89,7 +126,7 @@
 </section>
 
 <!-- ================= CULTURAL EXPERIENCE CARDS ================= -->
-<section class="cards" id="culture">
+<section class="cards" id="service">
   <article class="card card--1">
     <img class="card__img" src="{% static 'image/wed1.jpg' %}" alt="Carved stone temple gateway" loading="lazy" onerror="this.style.display='none'">
     <div class="card__num">01</div>
@@ -146,8 +183,8 @@
   </article>
 </section>
 
-<!-- ================= E-MEDIA ================= -->
-<section class="emedia" id="emedia">
+<!- About -->
+<section class="emedia" id="about">
   <img class="emedia__photo" src="{% static 'image/chuttersnap-aEnH4hJ_Mrs-unsplash.jpg' %}" alt="" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
   <div class="emedia__left">
     <h2>About<br>KTM Event Planner</h2>
@@ -182,7 +219,6 @@
         </div>
       </li>
     </ul>
-    <button class="btn btn--cut">All media</button>
   </div>
   <div class="emedia__right">
     <div class="emedia__triangle" aria-hidden="true"></div>
@@ -200,19 +236,39 @@
 <section class="gallery" id="gallery">
   <div class="gallery__circle" aria-hidden="true"></div>
   <div class="gallery__head">
-    <div>
+    <div class="gallery__text" >
       <h2><strong>KTM Event Planner</strong><br> Photo story</h2>
       <p class="gallery__copy"><strong>KTM Event Planner</strong> is an event management platform that helps users plan and organize weddings, corporate events, parties, and other special occasions. It provides event planning services, decoration ideas, venue arrangements, and professional support to create memorable events.</p>
     </div>
-    <button class="btn btn--cut btn--pink" id="galleryAllBtn">All albums</button>
+    <button class="btn btn--cut btn--pink" id="galleryAllBtn">Albums</button>
   </div>
+  
   <div class="gallery__strip">
-    <figure class="gimg gimg--1"><img src="{% static 'image/bd1.jpg' %}" alt="Dawn market, river delta" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Dawn market,<br>river delta</span><em>1 / 24</em></figcaption></figure>
-    <figure class="gimg gimg--2"><img src="{% static 'image/decore.jpg' %}" alt="Temple procession, dry season" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Temple procession,<br>dry season</span><em>1 / 18</em></figcaption></figure>
-    <figure class="gimg gimg--3"><img src="{% static 'image/wed1.jpg' %}" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Weaving house,<br>highlands</span><em>1 / 30</em></figcaption></figure>
-    <figure class="gimg gimg--4"><img src="{% static 'image/chuttersnap-aEnH4hJ_Mrs-unsplash.jpg' %}" alt="Coastal harvest, monsoon" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Coastal harvest,<br>monsoon</span><em>1 / 22</em></figcaption></figure>
-    <figure class="gimg gimg--3 gimg--extra"><img src="{% static 'image/quan-nguyen-yDSe7sggb9Q-unsplash.jpg' %}" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Weaving house,<br>highlands</span><em>1 / 30</em></figcaption></figure>
-    <figure class="gimg gimg--3 gimg--extra"><img src="{% static 'image/hero-wedding.jpg' %}" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Weaving house,<br>highlands</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--1"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_0709.heic" alt="Dawn market, river delta" loading="lazy" onerror="this.style.display='none'"><figcaption><span>BIrthday Celebration</span><em>1 / 24</em></figcaption></figure>
+    <figure class="gimg gimg--2"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_1475.heic" alt="Temple procession, dry season" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Decore Event</span><em>1 / 18</em></figcaption></figure>
+    <figure class="gimg gimg--3"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_2142.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Wedding</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--4"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_2763_1.heic" alt="Coastal harvest, monsoon" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Galas and Awards <br> Ceremonies</span><em>1 / 22</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_8858.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_3082.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_9631.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_3131.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_6728.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_3146.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_3159.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_9496.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_3445.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_3741.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_3764.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_3798.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_9453.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_5950.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_6502.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+     <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_9480.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_9505.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_6728.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Destination Planniing</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_7817.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+    <figure class="gimg gimg--3 gimg--extra"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_8849.heic" alt="Weaving house, highlands" loading="lazy" onerror="this.style.display='none'"><figcaption><span>Pre_wedding and <br>Engagement</span><em>1 / 30</em></figcaption></figure>
+
 
   </div>
 </section>
@@ -223,9 +279,9 @@
   </div>
 </div>
 
-<!-- ================= CULTURAL HERITAGE ================= -->
-<section class="heritage" id="heritage">
-  <img class="heritage__bg" src="https://images.unsplash.com/photo-1466442929976-97f336a657be?q=80&w=1600&auto=format&fit=crop" alt="Cultural heritage textiles on display" loading="lazy" onerror="this.style.display='none'">
+<!-- contact -->
+<section class="heritage" id="contact">
+  <img class="heritage__bg" src="{% static 'image/IMG_3764.jpg' %}" alt="Cultural heritage textiles on display" loading="lazy" onerror="this.style.display='none'">
 
   <div class="heritage__panel">
     <p class="eyebrow eyebrow--light">Get In Touch</p>
@@ -238,15 +294,11 @@
 
       <div class="heritage__info-block">
         <p class="eyebrow eyebrow--light">Studio</p>
-        <p>Kathmandu, Nepal<br>Durbar Marg</p>
+        <p>Naxal Bhatbhateni, Kathmandu<br>Nepal</p>
       </div>
       <div class="heritage__info-block">
-        <p class="eyebrow eyebrow--light">Hours</p>
-        <p>Sun &ndash; Fri &middot; 11:00 &ndash; 19:00<br>Sunday by appointment</p>
-      </div>
-      <div class="heritage__info-block">
-        <p class="eyebrow eyebrow--light">Reach us</p>
-        <p><a href="mailto:hello@ktm.example">hello@ktm.example</a><br><a href="tel:+977987654321">+977 987654321</a></p>
+        <p class="eyebrow eyebrow--light">Contact Us</p>
+        <p><a href="mailto:hello@ktm.example">hello@ktm.example</a><br><a href="tel:+9779841632488">+977-9841632488</a><br><a href="tel:+9779743226391">+977-9743226391</a></p>
       </div>
     </div>
 
@@ -287,16 +339,16 @@
     <div class="footer__brand">
       <div class="footer__brandrow">
         <span class="nav__logo-mark">
-          <img alt="KTM Event Planner Logo" class="nav__logo-img" src="{% static 'image/KTM_logo.png' %}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img alt="KTM Event Planner Logo" class="nav__logo-img" src="{% static 'image/KTM_logo_trim.png' %}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <span class="nav__logo-fallback" style="display:none;">KTM</span>
         </span>
         <span class="nav__logo-text"><em>Kathmandu</em><span>Event Planner</span></span>
       </div>
       <p>Thoughtfully planned, beautifully celebrated <br> weddings, celebrations, and corporate events across Kathmandu.</p>
       <div class="footer__social">
-        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.25.06 2.1.25 2.85.55.77.3 1.42.7 2.07 1.35.65.65 1.05 1.3 1.35 2.07.3.75.49 1.6.55 2.85.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.25-.25 2.1-.55 2.85a5.75 5.75 0 0 1-1.35 2.07 5.75 5.75 0 0 1-2.07 1.35c-.75.3-1.6.49-2.85.55-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.25-.06-2.1-.25-2.85-.55a5.75 5.75 0 0 1-2.07-1.35 5.75 5.75 0 0 1-1.35-2.07c-.3-.75-.49-1.6-.55-2.85C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.25.25-2.1.55-2.85.3-.77.7-1.42 1.35-2.07A5.75 5.75 0 0 1 6.24 .88c.75-.3 1.6-.49 2.85-.55C10.34 2.27 10.74 2.2 12 2.2Zm0 1.8c-3.15 0-3.52 0-4.76.07-1.02.05-1.57.21-1.94.36-.49.19-.84.42-1.2.79-.37.36-.6.71-.79 1.2-.15.37-.31.92-.36 1.94-.07 1.24-.07 1.61-.07 4.76s0 3.52.07 4.76c.05 1.02.21 1.57.36 1.94.19.49.42.84.79 1.2.36.37.71.6 1.2.79.37.15.92.31 1.94.36 1.24.07 1.61.07 4.76.07s3.52 0 4.76-.07c1.02-.05 1.57-.21 1.94-.36.49-.19.84-.42 1.2-.79.37-.36.6-.71.79-1.2.15-.37.31-.92.36-1.94.07-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.05-1.02-.21-1.57-.36-1.94a3.2 3.2 0 0 0-.79-1.2 3.2 3.2 0 0 0-1.2-.79c-.37-.15-.92-.31-1.94-.36-1.24-.07-1.61-.07-4.76-.07Zm0 4.35a5.65 5.65 0 1 1 0 11.3 5.65 5.65 0 0 1 0-11.3Zm0 1.8a3.85 3.85 0 1 0 0 7.7 3.85 3.85 0 0 0 0-7.7Zm5.87-2.01a1.32 1.32 0 1 1 0 2.64 1.32 1.32 0 0 1 0-2.64Z"/></svg></a>
-        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.9h2.65l.4-3.08h-3.05V8.05c0-.89.25-1.5 1.52-1.5h1.63V3.8A21.9 21.9 0 0 0 14.3 3.7c-2.36 0-3.98 1.44-3.98 4.08v2.24H7.65v3.08h2.67V21h3.18Z"/></svg></a>
-        <a href="https://wa.me/9779876543210" aria-label="Whatsapp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.2-.24-.58-.48-.5-.67-.5-.17 0-.37-.02-.57-.02-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.47 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.75-.71 2-1.4.25-.68.25-1.27.17-1.4-.07-.12-.27-.2-.57-.35Z"/><path d="M12 2C6.48 2 2 6.48 2 12c0 1.94.55 3.75 1.5 5.29L2 22l4.86-1.47A9.96 9.96 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.24-1.24l-.3-.18-2.88.87.86-2.81-.2-.3A7.93 7.93 0 0 1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8Z"/></svg></a>
+        <a href="https://www.instagram.com/ktmeventplanner/" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.25.06 2.1.25 2.85.55.77.3 1.42.7 2.07 1.35.65.65 1.05 1.3 1.35 2.07.3.75.49 1.6.55 2.85.06 1.25.07 1.65.07 4.85s0 3.6-.07 4.85c-.06 1.25-.25 2.1-.55 2.85a5.75 5.75 0 0 1-1.35 2.07 5.75 5.75 0 0 1-2.07 1.35c-.75.3-1.6.49-2.85.55-1.25.06-1.65.07-4.85.07s-3.6 0-4.85-.07c-1.25-.06-2.1-.25-2.85-.55a5.75 5.75 0 0 1-2.07-1.35 5.75 5.75 0 0 1-1.35-2.07c-.3-.75-.49-1.6-.55-2.85C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.85c.06-1.25.25-2.1.55-2.85.3-.77.7-1.42 1.35-2.07A5.75 5.75 0 0 1 6.24 .88c.75-.3 1.6-.49 2.85-.55C10.34 2.27 10.74 2.2 12 2.2Zm0 1.8c-3.15 0-3.52 0-4.76.07-1.02.05-1.57.21-1.94.36-.49.19-.84.42-1.2.79-.37.36-.6.71-.79 1.2-.15.37-.31.92-.36 1.94-.07 1.24-.07 1.61-.07 4.76s0 3.52.07 4.76c.05 1.02.21 1.57.36 1.94.19.49.42.84.79 1.2.36.37.71.6 1.2.79.37.15.92.31 1.94.36 1.24.07 1.61.07 4.76.07s3.52 0 4.76-.07c1.02-.05 1.57-.21 1.94-.36.49-.19.84-.42 1.2-.79.37-.36.6-.71.79-1.2.15-.37.31-.92.36-1.94.07-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.05-1.02-.21-1.57-.36-1.94a3.2 3.2 0 0 0-.79-1.2 3.2 3.2 0 0 0-1.2-.79c-.37-.15-.92-.31-1.94-.36-1.24-.07-1.61-.07-4.76-.07Zm0 4.35a5.65 5.65 0 1 1 0 11.3 5.65 5.65 0 0 1 0-11.3Zm0 1.8a3.85 3.85 0 1 0 0 7.7 3.85 3.85 0 0 0 0-7.7Zm5.87-2.01a1.32 1.32 0 1 1 0 2.64 1.32 1.32 0 0 1 0-2.64Z"/></svg></a>
+        <a href="https://www.facebook.com/ktmeventplanner" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 21v-7.9h2.65l.4-3.08h-3.05V8.05c0-.89.25-1.5 1.52-1.5h1.63V3.8A21.9 21.9 0 0 0 14.3 3.7c-2.36 0-3.98 1.44-3.98 4.08v2.24H7.65v3.08h2.67V21h3.18Z"/></svg></a>
+        <a href="https://wa.me/+9779743226391" aria-label="Whatsapp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.75-.86-2.02-.96-.27-.1-.47-.15-.67.15-.2.3-.77.96-.94 1.16-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.6-.91-2.2-.24-.58-.48-.5-.67-.5-.17 0-.37-.02-.57-.02-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.47 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.09 1.75-.71 2-1.4.25-.68.25-1.27.17-1.4-.07-.12-.27-.2-.57-.35Z"/><path d="M12 2C6.48 2 2 6.48 2 12c0 1.94.55 3.75 1.5 5.29L2 22l4.86-1.47A9.96 9.96 0 0 0 12 22c5.52 0 10-4.48 10-10S17.52 2 12 2Zm0 18a7.9 7.9 0 0 1-4.24-1.24l-.3-.18-2.88.87.86-2.81-.2-.3A7.93 7.93 0 0 1 4 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8Z"/></svg></a>
       </div>
     </div>
     <div class="footer__col">
@@ -312,8 +364,6 @@
        <a href="">Privacy Policy</a>
       <a href="">Terms of Service</a>
       <a href="">Vendor Agreements</a>
-      
-      
     </div>
   </div>
   <div class="footer__bottom">
