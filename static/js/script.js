@@ -364,3 +364,171 @@ function initNavScroll(){
   update();
 }
 initNavScroll();
+
+// ============ GALLERY: CLICK IMAGE TO OPEN (LIGHTBOX) ============
+function initGalleryLightbox(){
+  const strip = document.querySelector('.gallery__strip');
+  if(!strip) return;
+
+  const box = document.createElement('div');
+  box.className = 'lightbox';
+  box.setAttribute('role', 'dialog');
+  box.setAttribute('aria-modal', 'true');
+  box.setAttribute('aria-hidden', 'true');
+  box.innerHTML =
+    '<button class="lightbox__close" type="button" aria-label="Close">&times;</button>' +
+    '<button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Previous">&#10094;</button>' +
+    '<figure class="lightbox__figure"><img class="lightbox__img" alt="">' +
+    '<figcaption class="lightbox__cap"></figcaption></figure>' +
+    '<button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Next">&#10095;</button>';
+  document.body.appendChild(box);
+
+  const imgEl = box.querySelector('.lightbox__img');
+  const capEl = box.querySelector('.lightbox__cap');
+  let items = [], idx = 0;
+
+  // only figures currently visible (hidden "extra" ones are skipped until expanded)
+  const visibleItems = () => Array.from(strip.querySelectorAll('.gimg')).filter(f => f.offsetParent !== null);
+  // swap the 700x700 crop for a large uncropped version
+  const bigSrc = src => src.replace(/c_fill,w_\d+,h_\d+/, 'c_limit,w_1800');
+
+  function show(i){
+    idx = (i + items.length) % items.length;
+    const fig = items[idx];
+    const img = fig.querySelector('img');
+    if(!img) return;
+    imgEl.classList.add('is-loading');
+    imgEl.onload = () => imgEl.classList.remove('is-loading');
+    imgEl.onerror = () => { imgEl.onerror = null; imgEl.src = img.src; };
+    imgEl.src = bigSrc(img.currentSrc || img.src);
+    imgEl.alt = img.alt || '';
+    const cap = fig.querySelector('figcaption span');
+    capEl.textContent = cap ? cap.textContent.replace(/\s+/g, ' ').trim() : '';
+  }
+  function open(fig){
+    items = visibleItems();
+    const i = items.indexOf(fig);
+    if(i < 0) return;
+    show(i);
+    box.classList.add('is-open');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    box.querySelector('.lightbox__close').focus();
+  }
+  function close(){
+    box.classList.remove('is-open');
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    imgEl.removeAttribute('src');
+  }
+
+  // make cards keyboard-reachable
+  strip.querySelectorAll('.gimg').forEach(f => { f.tabIndex = 0; f.setAttribute('role', 'button'); });
+
+  strip.addEventListener('click', e => {
+    const fig = e.target.closest('.gimg');
+    if(fig) open(fig);
+  });
+  strip.addEventListener('keydown', e => {
+    if((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('gimg')){
+      e.preventDefault(); open(e.target);
+    }
+  });
+
+  box.querySelector('.lightbox__close').addEventListener('click', close);
+  box.querySelector('.lightbox__nav--prev').addEventListener('click', () => show(idx - 1));
+  box.querySelector('.lightbox__nav--next').addEventListener('click', () => show(idx + 1));
+  box.addEventListener('click', e => { if(e.target === box) close(); });   // click backdrop
+
+  document.addEventListener('keydown', e => {
+    if(!box.classList.contains('is-open')) return;
+    if(e.key === 'Escape') close();
+    else if(e.key === 'ArrowLeft') show(idx - 1);
+    else if(e.key === 'ArrowRight') show(idx + 1);
+  });
+
+  // swipe on touch screens
+  let x0 = null;
+  box.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive:true });
+  box.addEventListener('touchend', e => {
+    if(x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    if(Math.abs(dx) > 50) show(idx + (dx < 0 ? 1 : -1));
+    x0 = null;
+  });
+}
+initGalleryLightbox();
+
+/* Contact form -> EmailJS */
+const form = document.querySelector('.contact-form');
+if(form){
+  const status = form.querySelector('.form-status');
+  const button = form.querySelector('button[type="submit"]');
+
+  /* Event date: today or later only */
+  const dateInput = form.querySelector('input[name="event_date"]');
+  const todayStr = () => {
+    const d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset()); /* local date, not UTC */
+    return d.toISOString().split('T')[0];
+  };
+  const checkDate = () => {
+    if(!dateInput) return true;
+    dateInput.min = todayStr();
+    if(dateInput.value && dateInput.value < dateInput.min){
+      dateInput.setCustomValidity('Please choose today or a future date.');
+      return false;
+    }
+    dateInput.setCustomValidity('');
+    return true;
+  };
+  /* Phone: exactly 10 digits */
+  const phoneInput = form.querySelector('input[name="phone"]');
+  const checkPhone = () => {
+    if(!phoneInput) return true;
+    phoneInput.value = phoneInput.value.replace(/\D/g, '').slice(0, 10); /* digits only */
+    if(phoneInput.value.length !== 10){
+      phoneInput.setCustomValidity('Contact number must be exactly 10 digits.');
+      return false;
+    }
+    phoneInput.setCustomValidity('');
+    return true;
+  };
+  if(phoneInput) phoneInput.addEventListener('input', checkPhone);
+
+  if(dateInput){
+    dateInput.min = todayStr();
+    dateInput.addEventListener('input', checkDate);
+    dateInput.addEventListener('change', checkDate);
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if(form.website && form.website.value) return; /* bot */
+    checkDate();
+    checkPhone();
+    if(!form.reportValidity()) return;
+
+    const label = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = 'Sending…';
+
+    try{
+      await emailjs.sendForm(
+        'service_5lophjf',
+        'template_udnu8km',
+        form,
+        {publicKey:'OWYN_oXM6TeZTPDf-'}
+      );
+      status.className = 'form-status is-visible success';
+      status.textContent = 'Thank you! Your message has been sent.';
+      form.reset();
+    }catch(err){
+      status.className = 'form-status is-visible error';
+      status.textContent = 'Could not send. Please try again.';
+    }finally{
+      button.disabled = false;
+      button.innerHTML = label;
+    }
+  });
+}
