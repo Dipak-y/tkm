@@ -599,3 +599,62 @@ if(form){
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
+
+/* Gallery auto-slide: moves one photo every 3 seconds, loops back to the start.
+   Pauses on hover/touch/drag, while the lightbox is open, off-screen, or when the tab is hidden. */
+(function(){
+  var DELAY = 3000;
+
+  function init(){
+    var strip = document.querySelector('.gallery__strip');
+    if(!strip) return;
+    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    var timer = null, hovering = false, visible = true;
+
+    function stepPx(){
+      var tile = strip.querySelector('.gimg');
+      if(!tile) return strip.clientWidth;
+      var gap = parseFloat(getComputedStyle(strip).columnGap) || 0;
+      return tile.getBoundingClientRect().width + gap;
+    }
+    function lightboxOpen(){
+      return !!document.querySelector('.lightbox.is-open');
+    }
+    function dragging(){
+      return strip.classList.contains('is-dragging');
+    }
+    function tick(){
+      if(hovering || !visible || document.hidden || lightboxOpen() || dragging()) return;
+      var max = strip.scrollWidth - strip.clientWidth;
+      if(strip.scrollLeft >= max - 4){
+        strip.scrollTo({ left: 0, behavior: 'smooth' });      // end reached: loop back
+      } else {
+        strip.scrollBy({ left: stepPx(), behavior: 'smooth' });
+      }
+    }
+    function start(){ stop(); timer = setInterval(tick, DELAY); }
+    function stop(){ if(timer){ clearInterval(timer); timer = null; } }
+
+    /* pause while the pointer is on the gallery; restart the 3s count when it leaves */
+    var area = strip.closest('.gallery__slider') || strip;
+    area.addEventListener('mouseenter', function(){ hovering = true; });
+    area.addEventListener('mouseleave', function(){ hovering = false; start(); });
+    area.addEventListener('touchstart', function(){ hovering = true; }, { passive: true });
+    area.addEventListener('touchend', function(){ setTimeout(function(){ hovering = false; start(); }, 3000); }, { passive: true });
+    /* a manual arrow click or drag restarts the 3s count so it does not jump straight after */
+    area.addEventListener('click', start);
+    strip.addEventListener('mouseup', start);
+
+    /* only run while the gallery is on screen */
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        visible = entries[0].isIntersecting;
+      }, { threshold: 0.25 }).observe(strip);
+    }
+    document.addEventListener('visibilitychange', function(){ if(!document.hidden) start(); });
+
+    start();
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
