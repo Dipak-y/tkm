@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}?v=2">
 </head>
 <body>
 
@@ -19,7 +19,7 @@
       <img alt="KTM Event Planner Logo" class="nav__logo-img" src="{% static 'image/KTM_logo_trim.png' %}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
       <span class="nav__logo-fallback" style="display:none;">KTM</span>
     </span>
-    <span class="nav__logo-text"><em>Kathmandu</em><span>Event Planner</span></span>
+    <span class="nav__logo-text"><em>Ktm</em><span>Event Planner</span></span>
   </a>
 
   <nav class="nav__links" id="navLinks">
@@ -60,20 +60,23 @@
 
   <!-- full-bleed background: one slide per service, cross-fades -->
   <div class="hero__slides">
-    <div class="hero__slide is-active" data-title="Graduation" data-desc="We plan and manage every detail of your graduation, from venue and décor to catering and coordination, creating a beautiful and stress-free celebration." data-thumb="{% static 'image/hero/gradu_thumb.jpg' %}">
+    <div class="hero__slide is-active" data-title="Graduation" data-desc="Celebrate academic achievements and unforgettable milestones with beautifully organized graduation ceremonies." data-thumb="{% static 'image/hero/gradu_thumb.jpg' %}">
       <img src="{% static 'image/hero/slide_gradu.jpg' %}" alt="" fetchpriority="high" onerror="this.style.display='none'">
     </div>
-    <div class="hero__slide" data-title="conference" data-desc="Celebrate the beginning of your journey with beautifully curated engagement and pre-wedding events, thoughtfully designed with elegant décor, exquisite details, and seamless coordination." data-thumb="{% static 'image/hero/thumb_conf.jpg' %}">
+    <div class="hero__slide" data-title="conference" data-desc="Bring people, ideas, and opportunities together through professionally organized conferences." data-thumb="{% static 'image/hero/thumb_conf.jpg' %}">
       <img src="{% static 'image/hero/slide_conf.jpg' %}" alt="" onerror="this.style.display='none'">
     </div>
-    <div class="hero__slide" data-title="Award Ceremonies" data-desc="Celebrate excellence with sophisticated galas and award ceremonies, thoughtfully planned with elegant décor, seamless coordination, and memorable experiences." data-thumb="{% static 'image/hero/IMG_2763 (1).jpg' %}">
+    <div class="hero__slide" data-title="Award Ceremonies" data-desc="Celebrate achievements and recognize excellence with professionally organized award ceremonies." data-thumb="{% static 'image/hero/IMG_2763 (1).jpg' %}">
       <img src="{% static 'image/hero/IMG_2763 (1).jpg' %}" alt="" onerror="this.style.display='none'">
     </div>
-    <div class="hero__slide" data-title="Meeting &amp; Seminars" data-desc="Celebrate the beginning of your journey with beautifully curated engagement and pre-wedding events, thoughtfully designed with elegant décor, exquisite details, and seamless coordination." data-thumb="{% static 'image/hero/semi_thumb.jpg' %}">
+    <div class="hero__slide" data-title="Meeting &amp; Seminars" data-desc="Create productive and engaging professional gatherings with seamless planning and expert coordination." data-thumb="{% static 'image/hero/semi_thumb.jpg' %}">
       <img src="{% static 'image/hero/slide_semi.jpg' %}" alt="" onerror="this.style.display='none'">
     </div>
-    <div class="hero__slide" data-title="Product Launching" data-desc="We create joyful, personalized birthday celebrations with thoughtful décor, engaging entertainment, and seamless coordination. From intimate gatherings to grand parties, we make every birthday memorable." data-thumb="{% static 'image/hero/thumb_prod.jpg' %}">
+    <div class="hero__slide" data-title="Product Launching" data-desc="Wake a powerful first impression with professionally planned product launches that showcase your brand and capture attention." data-thumb="{% static 'image/hero/thumb_prod.jpg' %}">
       <img src="{% static 'image/hero/slide_prod.jpg' %}" alt="" onerror="this.style.display='none'">
+    </div>
+    <div class="hero__slide" data-title="Concerts" data-desc="Make every concert unforgettable with exceptional event planning, seamless coordination, and vibrant experiences." data-thumb="{% static 'image/hero/thumb-cnc.webp' %}">
+      <img src="{% static 'image/hero/slide_cnc.webp' %}" alt="" onerror="this.style.display='none'">
     </div>
   
   
@@ -131,7 +134,7 @@
     <div class="card__num">01</div>
     <div class="card__body">
       <h3>Graduations</h3>
-      <p>We plan and manage every detail of your graduation ceremony, from venue and décor to catering and coordination, creating a beautiful and stress-free celebration</p>
+      <p>Celebrate academic achievements and unforgettable milestones with beautifully organized graduation ceremonies. From stage decoration and photography to guest arrangements and event coordination, we create a memorable experience that honors every graduate's hard work, dedication, and success.</p>
       <button class="card__more" type="button" onclick="window.location.href='#contact'">Book Now</button>
     </div>
   </article>
@@ -140,7 +143,7 @@
     <div class="card__num">02</div>
     <div class="card__body">
       <h3>Conferences</h3>
-      <p>Celebrate the beginning of your journey with beautifully curated engagement and pre-wedding events, thoughtfully designed with elegant décor, exquisite details, and seamless coordination.</p>
+      <p>Bring people, ideas, and opportunities together through professionally organized conferences. From venue selection and stage arrangements to speaker coordination and guest management, we ensure a seamless and engaging experience that encourages collaboration, knowledge sharing, and meaningful connections.elegant décor, exquisite details, and seamless coordination.</p>
       <button class="card__more" type="button" onclick="window.location.href='#contact'">Book Now</button>
     </div>
   </article>
@@ -149,7 +152,7 @@
     <div class="card__num">03</div>
     <div class="card__body">
       <h3>Award Ceremonies</h3>
-      <p>We create joyful, personalized birthday celebrations with thoughtful décor, engaging entertainment, and seamless coordination. From intimate gatherings to grand parties, we make every birthday memorable.</p>
+      <p>Celebrate achievements and recognize excellence with professionally organized award ceremonies. From elegant stage design and lighting to guest management and event coordination, we create memorable experiences that honor success and make every achievement truly special.</p>
       <button class="card__more" type="button" onclick="window.location.href='#contact'">Book Now</button>
     </div>
   </article>
@@ -158,7 +161,7 @@
     <div class="card__num">04</div>
     <div class="card__body">
       <h3>Meeting &amp; Seminars</h3>
-      <p>Celebrate excellence with sophisticated galas and award ceremonies, thoughtfully planned with elegant décor, seamless coordination, and memorable experiences.</p>
+      <p>Create productive and engaging professional gatherings with seamless planning and expert coordination. From venue arrangements and audio-visual setup to guest management and event execution, we ensure every meeting and seminar runs smoothly and achieves its purpose.</p>
       <button class="card__more" type="button" onclick="window.location.href='#contact'">Book Now</button>
     </div>
   </article>
@@ -167,16 +170,16 @@
     <div class="card__num">05</div>
     <div class="card__body">
       <h3>Product Launching</h3>
-      <p>Celebrate excellence with sophisticated galas and award ceremonies, thoughtfully planned with elegant décor, seamless coordination, and memorable experiences.</p>
+      <p>>Make a powerful first impression with professionally planned product launches that showcase your brand and capture attention. From venue setup and branding to event coordination and guest experiences, we ensure every detail creates excitement and leaves a lasting impact.</p>
       <button class="card__more" type="button" onclick="window.location.href='#contact'">Book Now</button>
     </div>
   </article>
   <article class="card card--6">
-    <img class="card__img" src="{% static 'image/chuttersnap-aEnH4hJ_Mrs-unsplash.jpg' %}" alt="Craftsperson working at a maker bench" loading="lazy" onerror="this.style.display='none'">
+    <img class="card__img" src="{% static 'image/hero/thumb-cnc.webp' %}" alt="Craftsperson working at a maker bench" loading="lazy" onerror="this.style.display='none'">
     <div class="card__num">06</div>
     <div class="card__body">
-      <h3>Corporate Events</h3>
-      <p>Elevate your corporate events with refined planning, professional coordination, and thoughtfully designed experiences that leave a lasting impression.</p>
+      <h3>Concerts</h3>
+      <p>Make every concert unforgettable with exceptional event planning, seamless coordination, and vibrant experiences. From stage setup and sound production to lighting and artist management, we bring every detail together to create spectacular live music events.</p>
       <button class="card__more " type="button" onclick="window.location.href='#contact'"  >Book Now</button>
     </div>
   </article>
@@ -185,9 +188,11 @@
 <!- About -->
 <section class="emedia" id="about">
   <img class="emedia__photo" src="{% static 'image/IMG_6728.webp' %}" alt="" onload="this.parentNode.classList.add('has-photo')" onerror="this.remove()">
-  <div class="emedia__left">
+  <div class="emedia__head">
     <h2>About<br>KTM Event Planner</h2>
     <p class="emedia__copy">A dedicated team bringing weddings, celebrations and corporate events to life across Kathmandu, from first concept to final farewell.</p>
+  </div>
+  <div class="emedia__left">
     <ul class="emedia__list">
       <li>
         <span class="emedia__num">1</span>
@@ -242,6 +247,7 @@
     <button class="btn btn--cut btn--pink" id="galleryAllBtn">Albums</button>
   </div>
   
+  <div class="gallery__slider">
   <div class="gallery__strip">
     <figure class="gimg gimg--1"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_0709.webp" alt="Dawn market, river delta" loading="lazy" onerror="this.style.display='none'"></figure>
     <figure class="gimg gimg--2"><img src="https://res.cloudinary.com/wr0cndgj/image/upload/c_fill,w_700,h_700,f_auto,q_auto/v1791871416/IMG_1475.webp" alt="Temple procession, dry season" loading="lazy" onerror="this.style.display='none'"></figure>
@@ -270,6 +276,11 @@
 
 
   </div>
+  <div class="gallery__nav">
+    <button class="gslide-btn gslide-btn--prev" type="button" aria-label="Previous photos">&#10094;</button>
+    <button class="gslide-btn gslide-btn--next" type="button" aria-label="Next photos">&#10095;</button>
+  </div>
+  </div>
 </section>
 
 <div class="pinwheel-divider">
@@ -289,7 +300,7 @@
 
   <div class="heritage__contact">
     <div class="heritage__info">
-      <p class="heritage__form-lead">Tell us the occasion and we'll reply within one working day.</p>
+      <p class="heritage__form-lead">Tell us the occasion.</p>
 
       <div class="heritage__info-block">
         <p class="eyebrow eyebrow--light">Location</p>
@@ -303,24 +314,23 @@
     </div>
     
 <form class="heritage__form contact-form" action="#" method="post" novalidate>
-      <input class="heritage__input" type="text" name="name" placeholder="Your name" required>
+      <input class="heritage__input" type="text" name="name" placeholder="Full Name" required>
 
       <div class="heritage__form-row">
-        <input class="heritage__input" type="email" name="email" placeholder="Email address" required>
-        <input class="heritage__input" type="tel" name="contact_number" placeholder="Contact number">
+        <input class="heritage__input" type="email" name="email" placeholder="Email Address" required>
+        <input class="heritage__input" type="tel" name="contact_number" placeholder="Phone Number">
       </div>
 
       <div class="heritage__form-row">
         <div class="heritage__select">
           <select name="event_types" required>
-            <option value="" disabled selected hidden>Event</option>
-            <option value="Wedding">Wedding</option>
-            <option value="Engagement">Engagement</option>
-            <option value="Reception Party">Reception Party</option>
-            <option value="Anniversary">Anniversary</option>
-            <option value="Birthday Celebration">Birthday Celebration</option>
-            <option value="Baby Shower">Baby Shower</option>
-            <option value="Themed Parties">Themed Parties</option>
+            <option value="" disabled selected hidden>I am interested in</option>
+            <option value="Wedding">Graduation</option>
+            <option value="Engagement">Conference</option>
+            <option value="Reception Party">Award Ceremonies</option>
+            <option value="Anniversary">Meeting &amp; Seminars</option>
+            <option value="Birthday Celebration">Product Launching</option>
+            <option value="Baby Shower">Concerts</option>
             <option value="Other">Other</option>
           </select>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
@@ -328,11 +338,11 @@
         <input class="heritage__input heritage__date-input" type="date" name="event_date">
       </div>
 
-      <textarea class="heritage__input" name="message" placeholder="Message" rows="3"></textarea>
+      <textarea class="heritage__input" name="message" placeholder="Your Message" rows="5"></textarea>
 
       <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0;width:0;">
 
-      <button  class="btn btn--cut btn--pink" id="galleryAllBtn" type="submit">Send Enquiry</button>
+      <button class="glass-submit" type="submit"><span>Send enquiry</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>
@@ -351,7 +361,7 @@
         </span>
         <span class="nav__logo-text"><em>Kathmandu</em><span>Event Planner</span></span>
       </div>
-      <p>Let's Create Something Great Together <br> Whether you're planning a graduation, corporate conference, brand activation, <br> award ceremony, meeting, seminar, gala night, or private celebration. Our team is ready to bring your vision to life.</p>
+      <p>Let's Create Something Great Together.</p>
       <div class="footer__social">
         <a href="https://www.instagram.com/ktmeventplanner/" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24"
          fill="none" xmlns="http://www.w3.org/2000/svg"
@@ -377,13 +387,12 @@
     </div>
     <div class="footer__col">
       <h4>Services</h4>
-      <a href="">Wedding</a>
-      <a href="">Engagement</a>
-      <a href="">Reception Party</a>
-      <a href="">Anniversary</a>
-      <a href="">Birthday Celebration</a>
-      <a href="">Baby Shower</a>
-      <a href="">Themed Parties</a>
+      <a href="">Graduation</a>
+      <a href="">Conference</a>
+      <a href="">Award ceremonies</a>
+      <a href="">Meeting &amp; Seminars</a>
+      <a href="">Product Launching</a>
+      <a href="">Concerts</a>
     </div>
   </div>
   <div class="footer__bottom">
@@ -393,6 +402,6 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4.4.1/dist/email.min.js"></script>
-<script src="{% static 'js/script.js' %}"></script>
+<script src="{% static 'js/script.js' %}?v=2"></script>
 </body>
 </html>

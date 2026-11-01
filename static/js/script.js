@@ -177,14 +177,23 @@ function initHeroSlider(){
     return b;
   }
 
-  // cards are every service except the active one, starting just after it
+  // cards are every service, starting with the active one (highlighted),
+  // so the thumbnail of the current background is always visible too
   function railOrder(active){
     const out = [];
-    for(let k = 1; k < total; k++) out.push((active + k) % total);
+    for(let k = 0; k < total; k++) out.push((active + k) % total);
     return out;
+  }
+  function markActiveCard(card){
+    Array.from(track.children).forEach(c => {
+      c.classList.remove('is-active');
+      c.removeAttribute('aria-current');
+    });
+    if(card){ card.classList.add('is-active'); card.setAttribute('aria-current', 'true'); }
   }
   function renderRail(active){
     track.replaceChildren(...railOrder(active).map(makeCard));
+    markActiveCard(track.firstElementChild);
   }
   function stepSize(){
     const cards = track.children;
@@ -227,8 +236,6 @@ function initHeroSlider(){
     ex.style.height = cb.height + 'px';
     ex.style.borderRadius = getComputedStyle(card).borderRadius;
     box.appendChild(ex);
-    card.style.transition = 'none';
-    card.style.opacity = '0';
     void ex.offsetWidth;
     ex.style.left = '0px'; ex.style.top = '0px';
     ex.style.width = hb.width + 'px'; ex.style.height = hb.height + 'px';
@@ -255,16 +262,16 @@ function initHeroSlider(){
     // park the outgoing service at the end of the strip so it slides in from the right
     track.appendChild(makeCard(old));
     const step = stepSize();
-    const first = track.firstElementChild;
+    const target = track.children[1];      // the card for the service that becomes active
+    markActiveCard(target);                // highlight moves to it right away
     track.style.transition = 'transform ' + MOVE_MS + 'ms cubic-bezier(.22,1,.36,1)';
     track.style.transform = 'translateX(' + (-step) + 'px)';
 
     if(reduceMotion){
-      first.classList.add('is-leaving');
       showSlide(newActive);
     } else {
       // 1) card grows to full screen, 2) old text blurs out, 3) new text blurs in
-      expandCard(first, newActive);
+      expandCard(target, newActive);
       content.classList.remove('is-swapping');
       content.classList.add('is-out');
       setTimeout(() => setInfo(newActive), TEXT_OUT_MS);
@@ -282,7 +289,7 @@ function initHeroSlider(){
     if(busy) return;
     busy = true;
     const newActive = (current - 1 + total) % total;
-    renderRail(newActive);                 // first card = the service we're returning from
+    renderRail(newActive);                 // first card = the service we're returning to (active)
     const step = stepSize();
     track.style.transition = 'none';
     track.style.transform = 'translateX(' + (-step) + 'px)';
@@ -532,3 +539,63 @@ if(form){
     }
   });
 }
+
+/* Gallery slider: arrows + mouse drag. Self-contained so it works even if script.js is cached or stops early. */
+(function(){
+  function init(){
+    var strip = document.querySelector('.gallery__strip');
+    var prev  = document.querySelector('.gslide-btn--prev');
+    var next  = document.querySelector('.gslide-btn--next');
+    if(!strip || !prev || !next) return;
+
+    /* drop any older listeners on the arrows, then bind fresh ones */
+    var p2 = prev.cloneNode(true); prev.parentNode.replaceChild(p2, prev); prev = p2;
+    var n2 = next.cloneNode(true); next.parentNode.replaceChild(n2, next); next = n2;
+
+    function step(){
+      var tile = strip.querySelector('.gimg');
+      if(!tile) return strip.clientWidth;
+      var gap = parseFloat(getComputedStyle(strip).columnGap) || 0;
+      var w = tile.getBoundingClientRect().width + gap;
+      return w * Math.max(1, Math.floor((strip.clientWidth + gap) / w));
+    }
+    function update(){
+      prev.disabled = strip.scrollLeft <= 2;
+      next.disabled = strip.scrollLeft >= strip.scrollWidth - strip.clientWidth - 2;
+    }
+    prev.addEventListener('click', function(){ strip.scrollBy({ left: -step(), behavior: 'smooth' }); });
+    next.addEventListener('click', function(){ strip.scrollBy({ left:  step(), behavior: 'smooth' }); });
+    strip.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    window.addEventListener('load', update);
+    update();
+
+    /* mouse drag (touch swipes natively) */
+    var down = false, moved = false, startX = 0, startLeft = 0, blockClick = false;
+    Array.prototype.forEach.call(strip.querySelectorAll('img'), function(img){ img.draggable = false; });
+    strip.addEventListener('mousedown', function(e){
+      if(e.button !== 0) return;
+      down = true; moved = false; startX = e.clientX; startLeft = strip.scrollLeft;
+    });
+    window.addEventListener('mousemove', function(e){
+      if(!down) return;
+      var dx = e.clientX - startX;
+      if(!moved && Math.abs(dx) > 5){ moved = true; strip.classList.add('is-dragging'); }
+      if(moved){ strip.scrollLeft = startLeft - dx; e.preventDefault(); }
+    });
+    function end(){
+      if(!down) return;
+      down = false;
+      if(moved){
+        blockClick = true; setTimeout(function(){ blockClick = false; }, 0);
+        strip.classList.remove('is-dragging');
+      }
+    }
+    window.addEventListener('mouseup', end);
+    window.addEventListener('mouseleave', end);
+    window.addEventListener('click', function(e){
+      if(blockClick && strip.contains(e.target)){ e.stopPropagation(); e.preventDefault(); }
+    }, true);
+  }
+  if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
