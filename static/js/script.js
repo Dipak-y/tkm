@@ -366,8 +366,21 @@ initHeroSlider();
 function initNavScroll(){
   const nav = document.getElementById('nav');
   if(!nav) return;
-  const update = () => nav.classList.toggle('is-scrolled', window.scrollY > 40);
+  // sections marked data-nav="light" have a white background:
+  // while the bar sits over one of them, the logo + bar switch to their light-background look
+  const lightEls = Array.prototype.slice.call(document.querySelectorAll('[data-nav="light"]'));
+  const update = () => {
+    nav.classList.toggle('is-scrolled', window.scrollY > 40);
+    const r = nav.getBoundingClientRect();
+    const y = r.top + r.height / 2;
+    const onLight = lightEls.some(el => {
+      const b = el.getBoundingClientRect();
+      return b.top <= y && b.bottom >= y;
+    });
+    nav.classList.toggle('is-light', onLight);
+  };
   window.addEventListener('scroll', update, { passive:true });
+  window.addEventListener('resize', update);
   update();
 }
 initNavScroll();
